@@ -1,0 +1,53 @@
+services:
+  app:
+    build:
+      context: .
+    # image: jakenowak99/athlete-log:latest   # uncomment to pull from Docker Hub instead of building
+    environment:
+      APP_ADDR: 0.0.0.0:8080
+      APP_DB: ${APP_DB:-sqlite}
+      SQLITE_PATH: ${SQLITE_PATH:-/data/athlete-log.db}
+      DATABASE_URL: ${DATABASE_URL:-postgres://athlete:athlete@postgres:5432/athlete_log?sslmode=disable}
+      DATA_DIR: /data
+      STATIC_DIR: /app/frontend/dist
+      TOKEN_FILE: /data/bearer.token
+      # BASE_URL: https://vault.example.com   # set when exposing beyond localhost (needed for Strava OAuth)
+      # STRAVA_CLIENT_ID and STRAVA_CLIENT_SECRET can also be set here as an alternative to the Settings page
+    ports:
+      - "127.0.0.1:${APP_PORT:-8080}:8080"
+    volumes:
+      - ${DATA_DIR:-./data}/app:/data
+
+  postgres:
+    image: postgres:16-alpine
+    profiles: ["postgres", "backup"]
+    environment:
+      POSTGRES_DB: athlete_log
+      POSTGRES_USER: athlete
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-athlete}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - ${DATA_DIR:-./data}/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U athlete -d athlete_log"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backup:
+    image: postgres:16-alpine
+    profiles: ["backup"]
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD:-athlete}
+    volumes:
+      - ${DATA_DIR:-./data}/backups:/backups
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint: >
+      sh -c "while true; do
+        pg_dump -h postgres -U athlete athlete_log | gzip > /backups/backup_$$(date +%Y%m%d_%H%M%S).sql.gz;
+        find /backups -name '*.sql.gz' -mtime +7 -delete;
+        sleep 86400;
+      done"

@@ -1,0 +1,31 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100" height="100" rx="22" fill="url(#bg)"/>
+  <!-- Top highlight -->
+  <rect width="100" height="52" rx="22" fill="url(#shine)"/>
+
+  <!-- Shackle (U-shape) -->
+  <path d="M34 52 L34 35 A16 16 0 0 1 66 35 L66 52"
+        stroke="white" stroke-width="7" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Lock body -->
+  <rect x="20" y="52" width="60" height="40" rx="9" fill="white" fill-opacity="0.96"/>
+
+  <!-- EKG / heartrate line — the key metaphor -->
+  <polyline
+    points="26,72 34,72 38,60 43,84 48,60 53,72 74,72"
+    stroke="#0d9488" stroke-width="3" fill="none"
+    stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

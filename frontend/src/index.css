@@ -1,0 +1,158 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+/* ── Accent color CSS variables ─────────────────────────────────────────────── */
+
+:root {
+  --accent:             #3b82f6; /* blue-500 */
+  --accent-d:           #2563eb; /* blue-600 */
+  --accent-light:       #eff6ff; /* blue-50  */
+  --gradient-strength:  1;       /* 0–1, controlled by the slider in Settings */
+}
+[data-accent="violet"] { --accent: #7c3aed; --accent-d: #6d28d9; --accent-light: #f5f3ff; }
+[data-accent="emerald"]{ --accent: #10b981; --accent-d: #059669; --accent-light: #ecfdf5; }
+[data-accent="rose"]   { --accent: #f43f5e; --accent-d: #e11d48; --accent-light: #fff1f2; }
+[data-accent="amber"]  { --accent: #f59e0b; --accent-d: #d97706; --accent-light: #fffbeb; }
+
+/* ── App background gradient ────────────────────────────────────────────────── */
+
+.bg-app { background-color: #f8fafc; }
+.dark .bg-app { background-color: #07101f; }
+
+/* indigo (default) */
+[data-gradient="indigo"] .bg-app,
+:not([data-gradient]) .bg-app {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 80% -10%, rgb(99 102 241 / calc(0.22 * var(--gradient-strength))) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 5%  95%,  rgb(139 92 246  / calc(0.16 * var(--gradient-strength))) 0%, transparent 65%);
+}
+.dark[data-gradient="indigo"] .bg-app,
+.dark:not([data-gradient]) .bg-app {
+  background-image:
+    radial-gradient(ellipse 70% 50% at 75% -5%,  rgb(59 130 246  / calc(0.32 * var(--gradient-strength))) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 5%  100%, rgb(139 92 246  / calc(0.22 * var(--gradient-strength))) 0%, transparent 60%);
+}
+
+/* emerald */
+[data-gradient="emerald"] .bg-app {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 80% -10%, rgb(16 185 129  / calc(0.22 * var(--gradient-strength))) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 5%  95%,  rgb(5 150 105   / calc(0.16 * var(--gradient-strength))) 0%, transparent 65%);
+}
+.dark[data-gradient="emerald"] .bg-app {
+  background-image:
+    radial-gradient(ellipse 70% 50% at 75% -5%,  rgb(16 185 129  / calc(0.32 * var(--gradient-strength))) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 5%  100%, rgb(5 150 105   / calc(0.22 * var(--gradient-strength))) 0%, transparent 60%);
+}
+
+/* amber */
+[data-gradient="amber"] .bg-app {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 80% -10%, rgb(245 158 11  / calc(0.22 * var(--gradient-strength))) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 5%  95%,  rgb(217 119 6   / calc(0.16 * var(--gradient-strength))) 0%, transparent 65%);
+}
+.dark[data-gradient="amber"] .bg-app {
+  background-image:
+    radial-gradient(ellipse 70% 50% at 75% -5%,  rgb(245 158 11  / calc(0.32 * var(--gradient-strength))) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 5%  100%, rgb(217 119 6   / calc(0.22 * var(--gradient-strength))) 0%, transparent 60%);
+}
+
+/* rose */
+[data-gradient="rose"] .bg-app {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 80% -10%, rgb(244 63 94   / calc(0.22 * var(--gradient-strength))) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 5%  95%,  rgb(225 29 72   / calc(0.16 * var(--gradient-strength))) 0%, transparent 65%);
+}
+.dark[data-gradient="rose"] .bg-app {
+  background-image:
+    radial-gradient(ellipse 70% 50% at 75% -5%,  rgb(244 63 94   / calc(0.32 * var(--gradient-strength))) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 5%  100%, rgb(225 29 72   / calc(0.22 * var(--gradient-strength))) 0%, transparent 60%);
+}
+
+/* mono — flat, no gradient */
+[data-gradient="mono"] .bg-app      { background-image: none; }
+.dark[data-gradient="mono"] .bg-app { background-image: none; }
+
+/* ── Accent color utility classes ───────────────────────────────────────────── */
+
+.btn-accent {
+  background-color: var(--accent);
+  color: white;
+}
+.btn-accent:hover:not(:disabled) {
+  background-color: var(--accent-d);
+}
+.btn-accent:disabled {
+  opacity: 0.5;
+}
+
+.text-accent { color: var(--accent); }
+.border-accent { border-color: var(--accent); }
+.bg-accent { background-color: var(--accent); }
+
+/* ── Card hover: lift + border glow + top-lit shimmer ─────────────────────── */
+
+.card-hover {
+  position: relative;
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+.card-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse 90% 55% at 50% 0%, rgba(255, 255, 255, 0.06) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.10);
+}
+
+.card-hover:hover::after {
+  opacity: 1;
+}
+
+.dark .card-hover:hover {
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent), 0 8px 32px -4px rgba(0, 0, 0, 0.65);
+}
+
+/* ── Calendar wave fill animation ────────────────────────────────────────────── */
+
+/* Seamless wave: SVG 200% wide, -50% = exactly one period shift */
+@keyframes wave-flow {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Fill: container rises from bottom like water filling a glass */
+@keyframes fill-rise {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+/* Hover ripple: gentle disturbance, like touching still water */
+@keyframes wave-splash {
+  0%   { transform: scaleY(1); }
+  30%  { transform: scaleY(1.05) translateY(-1.5%); }
+  70%  { transform: scaleY(1.02); }
+  100% { transform: scaleY(1); }
+}
+
+.wave-cell {
+  transform-origin: bottom;
+  animation: fill-rise 1.5s cubic-bezier(0.25, 1.05, 0.5, 1) both;
+}
+
+/* Adding wave-splash class triggers the one-shot hover ripple.
+   fill-rise params are identical so the browser continues without restart. */
+.wave-cell.wave-splash {
+  animation:
+    fill-rise 1.5s cubic-bezier(0.25, 1.05, 0.5, 1) both,
+    wave-splash 0.7s ease-out both;
+}

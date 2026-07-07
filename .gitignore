@@ -1,0 +1,38 @@
+# Build outputs
+bin/
+*.test
+__pycache__/
+*.py[cod]
+
+# Local data and credentials
+data/
+*.token
+*.tcx
+
+# Previously exported activity files
+activities*.json
+output_*.json
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Docs
+docs-site/
+.venv-docs/
+
+# OS
+.DS_Store
+._*
+Thumbs.db
+
+# Editor / tools
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.env
+.claude/
+demo_activities/
