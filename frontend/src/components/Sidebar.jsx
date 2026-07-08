@@ -21,8 +21,6 @@ import {
   Sun,
   Moon,
   Plug,
-  GitBranch,
-  ExternalLink,
 } from "lucide-react";
 
 const BASE_GROUPS = [
@@ -122,32 +120,6 @@ export default function Sidebar({ publicMode, isAuthenticated, onLoginClick, onL
             : <><Moon size={14} /><span>Dark mode</span></>
           }
         </button>
-      </div>
-
-      <div className="px-4 py-3 border-t border-slate-800/60">
-        <div className="space-y-1">
-          <a
-            href="https://github.com/nowakkuba99/athlete-log"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-2 py-1.5 text-xs text-slate-500 hover:text-slate-300 hover:bg-slate-800/60 rounded transition-colors"
-            title="Source code"
-          >
-            <GitBranch size={13} />
-            Source code
-            <ExternalLink size={11} className="ml-auto" />
-          </a>
-          <a
-            href="https://athlete-log.app/docs"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-2 py-1.5 text-xs text-slate-500 hover:text-slate-300 hover:bg-slate-800/60 rounded transition-colors"
-            title="Public documentation"
-          >
-            <ExternalLink size={13} />
-            Public docs
-          </a>
-        </div>
       </div>
 
       {/* Admin section — only shown in public mode */}

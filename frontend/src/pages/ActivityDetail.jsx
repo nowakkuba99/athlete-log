@@ -2150,7 +2150,7 @@ export default function ActivityDetail() {
           {dangerOpen && (
             <div className="flex items-center justify-between gap-4 px-5 pb-4 pt-1 border-t border-red-100">
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                Permanently removes this activity from your vault. This cannot be undone.
+                Permanently removes this activity from your log. This cannot be undone.
               </p>
               {deleteConfirm ? (
                 <div className="flex gap-2 shrink-0">

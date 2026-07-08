@@ -61,7 +61,7 @@ function AdminGate({ publicMode, isAuthenticated, onLoginClick, children }) {
         </div>
         <p className="font-medium text-slate-700 dark:text-slate-200">Owner access required</p>
         <p className="text-sm text-slate-400 dark:text-slate-500 max-w-xs">
-          This section is restricted to the vault owner.
+          This section is restricted to the app owner.
         </p>
         <button
           onClick={onLoginClick}

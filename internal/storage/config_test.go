@@ -39,7 +39,7 @@ func TestConfigFromEnvAllowsExplicitBackend(t *testing.T) {
 		case "APP_DB":
 			return "sqlite"
 		case "SQLITE_PATH":
-			return "/custom/vault.db"
+			return "/custom/athlete-log.db"
 		case "DATABASE_URL":
 			return "postgres://ignored"
 		default:
@@ -52,7 +52,7 @@ func TestConfigFromEnvAllowsExplicitBackend(t *testing.T) {
 	if cfg.Backend != BackendSQLite {
 		t.Fatalf("backend = %q, want %q", cfg.Backend, BackendSQLite)
 	}
-	if cfg.SQLitePath != "/custom/vault.db" {
+	if cfg.SQLitePath != "/custom/athlete-log.db" {
 		t.Fatalf("sqlite path = %q", cfg.SQLitePath)
 	}
 }

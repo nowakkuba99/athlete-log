@@ -171,7 +171,7 @@ function StepReady({ onFinish }) {
         <CheckCircle2 size={28} style={{ color: "var(--accent)" }} />
       </div>
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Your vault is ready</h2>
+        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">You're all set</h2>
         <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
           Explore your activities, check your records, and start uncovering insights from your training history.
         </p>

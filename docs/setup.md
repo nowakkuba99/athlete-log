@@ -31,7 +31,7 @@ The only values needed before first launch are in `docker-compose.yml`:
 | `POSTGRES_PASSWORD` | `athlete` | Postgres password — **change this before any network exposure** |
 | `DATABASE_URL` | Compose-managed Postgres URL | Existing Postgres connection string. Set this when bringing your own Postgres database |
 | `SQLITE_PATH` | `/data/athlete-log.db` in Docker | SQLite database path |
-| `BASE_URL` | _(unset)_ | Public origin, e.g. `https://vault.example.com` — required for Strava OAuth on non-localhost |
+| `BASE_URL` | _(unset)_ | Public origin, e.g. `https://athlete-log.example.com` — required for Strava OAuth on non-localhost |
 | `APP_PORT` | `8080` | Host port the app listens on |
 | `DATA_DIR` | `./data` | Host path for SQLite data, optional Postgres volume, and activity blobs |
 | `APP_PUBLIC_MODE` | _(unset)_ | Set to `true` to allow anyone to view data while restricting writes to authenticated owner only |

@@ -50,7 +50,7 @@ export default function Login({ onSuccess, modal = false }) {
           <>
             <h1 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-1">Sign in</h1>
             <p className="text-sm text-slate-400 dark:text-slate-500 mb-6">
-              Password protected — enter your vault password.
+              Password protected — enter your password.
             </p>
           </>
         )}

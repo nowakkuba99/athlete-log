@@ -17,10 +17,19 @@ No subscription. No cloud lock-in. No data mining.
 
 ---
 
-| | |
-|:---:|:---:|
-| ![Activities](docs/assets/screenshots/activities.png) | ![Fitness PMC](docs/assets/screenshots/fitness.png) |
-| ![Activity detail](docs/assets/screenshots/activity-detail.png) | ![Heatmap](docs/assets/screenshots/heatmap.png) |
+<div align="center">
+
+<img src="docs/assets/screenshots/activity-detail.png" alt="Activity detail — route, splits, and charts" width="88%"/>
+
+<br/><br/>
+
+<img src="docs/assets/screenshots/activities.png" alt="Activities" width="32%"/>
+&nbsp;
+<img src="docs/assets/screenshots/heatmap.png" alt="GPS heatmap" width="32%"/>
+&nbsp;
+<img src="docs/assets/screenshots/fitness.png" alt="Fitness — Performance Management Chart" width="32%"/>
+
+</div>
 
 ---
 
@@ -81,8 +90,6 @@ Go 1.23 · SQLite by default · PostgreSQL optional · React 18 · Tailwind CSS 
 
 ---
 
-## License and trademark
+## License
 
 [AGPLv3 or later](LICENSE) — built for athletes who believe their data belongs to them.
-
-See [TRADEMARKS.md](TRADEMARKS.md) for branding and naming rules around forks, hosted services, and commercial distributions.

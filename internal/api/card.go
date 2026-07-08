@@ -241,7 +241,7 @@ func GenerateShareCard(act cardActivity, samples [][2]float64, theme string, imp
 	))
 	sb.WriteString(`</g>`)
 	sb.WriteString(fmt.Sprintf(
-		`<text x="%d" y="%d" font-size="13" font-weight="700" fill="%s" letter-spacing="0.5">ATHLETE VAULT</text>`,
+		`<text x="%d" y="%d" font-size="13" font-weight="700" fill="%s" letter-spacing="0.5">ATHLETE LOG</text>`,
 		lx+36, ly+20, tc.muted,
 	))
 

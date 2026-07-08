@@ -11,7 +11,7 @@ services:
       DATA_DIR: /data
       STATIC_DIR: /app/frontend/dist
       TOKEN_FILE: /data/bearer.token
-      # BASE_URL: https://vault.example.com   # set when exposing beyond localhost (needed for Strava OAuth)
+      # BASE_URL: https://athlete-log.example.com   # set when exposing beyond localhost (needed for Strava OAuth)
       # STRAVA_CLIENT_ID and STRAVA_CLIENT_SECRET can also be set here as an alternative to the Settings page
     ports:
       - "127.0.0.1:${APP_PORT:-8080}:8080"

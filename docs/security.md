@@ -59,7 +59,7 @@ If you're exposing Athlete Log over the internet, put it behind a reverse proxy 
 === "Caddy"
 
     ```caddy
-    vault.example.com {
+    athlete-log.example.com {
         reverse_proxy localhost:8080
     }
     ```
@@ -71,9 +71,9 @@ If you're exposing Athlete Log over the internet, put it behind a reverse proxy 
     ```nginx
     server {
         listen 443 ssl;
-        server_name vault.example.com;
-        ssl_certificate     /etc/letsencrypt/live/vault.example.com/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/vault.example.com/privkey.pem;
+        server_name athlete-log.example.com;
+        ssl_certificate     /etc/letsencrypt/live/athlete-log.example.com/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/athlete-log.example.com/privkey.pem;
 
         location / {
             proxy_pass http://localhost:8080;
@@ -83,7 +83,7 @@ If you're exposing Athlete Log over the internet, put it behind a reverse proxy 
     }
     ```
 
-Set `BASE_URL=https://vault.example.com` in `docker-compose.yml` — this is required for Strava OAuth redirects to work correctly when not on localhost.
+Set `BASE_URL=https://athlete-log.example.com` in `docker-compose.yml` — this is required for Strava OAuth redirects to work correctly when not on localhost.
 
 ---
 

@@ -147,7 +147,7 @@ func (s *APIServer) stopFolderWatcher(connID string) {
 	}
 }
 
-// WithBaseURL sets the externally-reachable origin (e.g. "https://vault.example.com")
+// WithBaseURL sets the externally-reachable origin (e.g. "https://athlete-log.example.com")
 // used when constructing OAuth callback URLs. Must not have a trailing slash.
 func (s *APIServer) WithBaseURL(u string) *APIServer {
 	s.baseURL = u
