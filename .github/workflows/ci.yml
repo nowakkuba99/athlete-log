@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Go build & test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: athlete_log_test
+          POSTGRES_USER: athlete
+          POSTGRES_PASSWORD: athlete
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U athlete -d athlete_log_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgres://athlete:athlete@127.0.0.1:5432/athlete_log_test?sslmode=disable
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Download modules
+        run: go mod download
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Test
+        run: go test -race -count=1 ./...
+
+  frontend:
+    name: Frontend build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --prefix frontend
+
+      - name: Build
+        run: npm run build --prefix frontend
+
+  benchmarks:
+    name: Go benchmarks
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: athlete_log_test
+          POSTGRES_USER: athlete
+          POSTGRES_PASSWORD: athlete
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U athlete -d athlete_log_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgres://athlete:athlete@127.0.0.1:5432/athlete_log_test?sslmode=disable
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Download modules
+        run: go mod download
+
+      - name: Benchmark
+        run: go test -bench=. -benchmem -benchtime=5s -run='^$' ./internal/postgres/... | tee bench.txt
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-${{ github.sha }}
+          path: bench.txt
+          retention-days: 90
+

@@ -1,0 +1,24 @@
+.git
+.context
+.DS_Store
+
+# Local data and secrets
+data
+backups
+*.token
+*.tcx
+*.env
+.env
+
+# Build outputs
+bin
+docs-site
+frontend/dist
+frontend/node_modules
+frontend/.vite
+
+# Local editor/tooling
+.claude
+.idea
+.vscode
+demo_activities
