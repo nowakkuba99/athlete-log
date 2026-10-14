@@ -1,9 +1,19 @@
 name: Build & Push Docker Image
 
 on:
-  push:
-    branches: [main]
-    tags: ["v*"]
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing release tag to publish
+        required: true
+        default: v1.0.0
+      dry_run:
+        description: Build and authenticate without pushing
+        required: true
+        default: true
+        type: boolean
 
 jobs:
   build:
@@ -13,12 +23,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || github.event.inputs.release_tag }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
       - name: Log in to Docker Hub
-        if: startsWith(github.ref, 'refs/tags/')
         uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -30,20 +41,18 @@ jobs:
         with:
           images: jakenowak99/athlete-log
           tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=${{ github.event.release.tag_name || github.event.inputs.release_tag }}
+            type=semver,pattern={{version}},value=${{ github.event.release.tag_name || github.event.inputs.release_tag }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ github.event.release.tag_name || github.event.inputs.release_tag }}
+            type=raw,value=latest
 
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
           context: .
-          push: ${{ startsWith(github.ref, 'refs/tags/') }}
+          push: ${{ github.event_name != 'workflow_dispatch' || !inputs.dry_run }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          # Validate amd64 on branch pushes; build both platforms only when
-          # publishing a tagged release (arm64 under emulation is slow).
-          platforms: ${{ startsWith(github.ref, 'refs/tags/') && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
+          platforms: linux/amd64,linux/arm64
