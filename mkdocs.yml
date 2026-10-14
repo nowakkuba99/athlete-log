@@ -68,7 +68,7 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/<your-org>/athlete-log
+      link: https://github.com/nowakkuba99/athlete-log
     - icon: fontawesome/brands/docker
       link: https://hub.docker.com/r/jakenowak99/athlete-log
 
