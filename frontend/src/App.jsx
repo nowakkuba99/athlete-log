@@ -4,6 +4,14 @@ import { Lock } from "lucide-react";
 
 const IS_DEMO = import.meta.env.VITE_DEMO_MODE === "true";
 const DEMO_BASE = import.meta.env.VITE_DEMO_BASE ?? "/";
+
+if (IS_DEMO) {
+  try {
+    localStorage.setItem("av_map_style", "osm");
+    localStorage.removeItem("av_protomaps_key");
+  } catch {}
+}
+
 import Sidebar from "./components/Sidebar";
 import AIPanel from "./components/AIPanel";
 import Home from "./pages/Home";

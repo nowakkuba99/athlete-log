@@ -11,7 +11,7 @@ No subscription. No cloud lock-in. No data mining.
 [![Docker](https://img.shields.io/badge/Docker-Hub-2496ED?style=flat-square&logo=docker&logoColor=white)](https://hub.docker.com/r/jakenowak99/athlete-log)
 [![License: AGPLv3%2B](https://img.shields.io/badge/License-AGPLv3%2B-6366f1?style=flat-square)](LICENSE)
 
-[Setup](docs/setup.md) · [Sources](docs/sources.md) · [Features](docs/features.md) · [Security](docs/security.md) · [Docker Hub](https://hub.docker.com/r/jakenowak99/athlete-log)
+[Docs](https://athlete-log.app/docs) · [Setup](docs/setup.md) · [Sources](docs/sources.md) · [Features](docs/features.md) · [Security](docs/security.md) · [Docker Hub](https://hub.docker.com/r/jakenowak99/athlete-log)
 
 </div>
 
@@ -83,6 +83,7 @@ Go 1.23 · SQLite by default · PostgreSQL optional · React 18 · Tailwind CSS 
 
 ## Documentation
 
+- [Official docs](https://athlete-log.app/docs) — hosted setup and feature guide
 - [Setup](docs/setup.md) — install, configuration, deployment
 - [Connecting sources](docs/sources.md) — files, watched folders, Nike Run Club, Strava
 - [Features](docs/features.md) — full feature reference
