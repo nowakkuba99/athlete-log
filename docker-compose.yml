@@ -6,7 +6,7 @@ services:
     environment:
       APP_ADDR: 0.0.0.0:8080
       APP_DB: ${APP_DB:-sqlite}
-      SQLITE_PATH: ${SQLITE_PATH:-/data/athlete-log.db}
+      SQLITE_PATH: ${SQLITE_PATH:-}
       DATABASE_URL: ${DATABASE_URL:-postgres://athlete:athlete@postgres:5432/athlete_log?sslmode=disable}
       DATA_DIR: /data
       STATIC_DIR: /app/frontend/dist

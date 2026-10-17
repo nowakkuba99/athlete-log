@@ -1,0 +1,14 @@
+name: athlete-log
+
+services:
+  app:
+    restart: unless-stopped
+    environment:
+      SQLITE_PATH: /data/athlete-log.db
+      APP_REQUIRE_EXISTING_DB: "true"
+    volumes:
+      - type: bind
+        source: ${ATHLETE_LOG_APP_DATA:?Set ATHLETE_LOG_APP_DATA to an absolute persistent app data directory}
+        target: /data
+        bind:
+          create_host_path: false
