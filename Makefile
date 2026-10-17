@@ -11,7 +11,7 @@ API_PORT := $(lastword $(subst :, ,$(API_ADDR)))
 DATABASE_URL ?= postgres://athlete:athlete@127.0.0.1:5432/athlete_log?sslmode=disable
 DATA_DIR ?= ./data
 APP_DB ?= sqlite
-SQLITE_PATH ?= $(DATA_DIR)/athlete-log.db
+SQLITE_PATH ?=
 DOCS_OUT_DIR ?= docs-site
 DOCS_ADDR ?= 127.0.0.1:8090
 DOCS_VENV ?= .venv-docs

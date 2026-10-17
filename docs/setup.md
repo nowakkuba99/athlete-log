@@ -37,6 +37,10 @@ The only values needed before first launch are in `docker-compose.yml`:
 | `APP_PUBLIC_MODE` | _(unset)_ | Set to `true` to allow anyone to view data while restricting writes to authenticated owner only |
 | `APP_AUTH_RESET` | _(unset)_ | Set to `true` on a single startup to clear a forgotten password and disable auth — remove immediately after logging back in |
 
+Docker Compose mounts `${DATA_DIR:-./data}/app` into the app container. Keep `DATA_DIR` fixed when starting the app from different directories or Conductor workspaces; a relative `./data` points to a separate database in each workspace. An absolute host path to one data directory avoids this. Run only one app container against that SQLite database at a time.
+
+Older installations may have an `athlete-vault.db` file. With `SQLITE_PATH` unset, the app reuses it when it is in the mounted `app` directory and the newer `athlete-log.db` has no activities. If the older database is in the parent `data` directory, it is outside the container mount; back it up into `data/app` while the app is stopped, along with its `blobs` directory. Keep the original files until the restored activity count is verified.
+
 All other settings (Strava credentials, Protomaps API key, HR max, units, password protection) are configured through the **Settings page** in the UI and stored in the database — no restart required.
 
 ## Security
@@ -101,7 +105,7 @@ APP_DB=postgres docker compose --profile postgres up
 
 ## Backups
 
-With SQLite, back up `${DATA_DIR:-./data}/app/athlete-log.db` while the app is stopped, or copy the full `${DATA_DIR:-./data}/app/` directory.
+For a persistent macOS installation and automated, verified SQLite backups, follow [Persistent macOS installation](production-macos.md). A SQLite backup must also contain `blobs/`; use the SQLite online backup API while the app is running rather than copying a live database file by itself.
 
 When using the optional Compose Postgres service, data lives on the host at `${DATA_DIR:-./data}/postgres/`. The simplest way to back it up is:
 
@@ -115,15 +119,16 @@ This runs `pg_dump` inside the running Postgres container and writes a gzip-comp
 make restore FILE=backups/athlete_log_20260630_120000.sql.gz
 ```
 
-### Automatic daily backups
+### Automatic daily PostgreSQL backups
 
-The `docker-compose.yml` includes an optional `backup` sidecar. Enable it once and it runs nightly, keeping the last 7 days:
+The `docker-compose.yml` includes an optional **PostgreSQL-only** `backup` sidecar. Enable it once and it runs nightly, keeping the last 7 days:
 
 ```sh
 DATA_DIR=./data docker compose --profile backup up -d backup
 ```
 
 Backups are written to `${DATA_DIR:-./data}/backups/` and files older than 7 days are deleted automatically.
+This sidecar saves only a PostgreSQL dump; back up `${DATA_DIR:-./data}/app/blobs/` separately when using PostgreSQL.
 
 ---
 

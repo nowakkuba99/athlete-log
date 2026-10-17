@@ -7,6 +7,7 @@ site_dir: docs-site
 nav:
   - Home: index.md
   - Setup: setup.md
+  - Persistent macOS installation: production-macos.md
   - Connecting Sources: sources.md
   - Features: features.md
   - Security: security.md

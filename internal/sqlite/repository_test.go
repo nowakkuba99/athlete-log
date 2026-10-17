@@ -445,3 +445,63 @@ func newTestRepository(t *testing.T) *Repository {
 	})
 	return repo
 }
+
+func TestLegacyDatabaseActivitiesSurviveRestart(t *testing.T) {
+	ctx := context.Background()
+	dataDir := t.TempDir()
+	legacyPath := filepath.Join(dataDir, "athlete-vault.db")
+
+	repo, err := New(legacyPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	athlete, err := repo.EnsureDefaultAthlete(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = repo.UpsertSourceActivity(ctx, athlete.ID, domain.SourceActivity{
+		Ref: domain.SourceActivityRef{
+			Source:           domain.SourceFITUpload,
+			SourceActivityID: "run-before-restart",
+		},
+		Activity: domain.Activity{
+			SportType: domain.SportRun,
+			Name:      "Saved run",
+			StartAt:   time.Date(2026, 1, 2, 8, 30, 0, 0, time.UTC),
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := repo.Close(); err != nil {
+		t.Fatal(err)
+	}
+	currentRepo, err := New(filepath.Join(dataDir, "athlete-log.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := currentRepo.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	cfg, err := storage.ConfigFromEnv(func(string) string { return "" }, dataDir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	restartedRepo, err := New(cfg.SQLitePath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer restartedRepo.Close()
+	restartedAthlete, err := restartedRepo.EnsureDefaultAthlete(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	activities, _, err := restartedRepo.ListActivities(ctx, restartedAthlete.ID, storage.ListActivitiesFilter{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(activities) != 1 || activities[0].Name != "Saved run" {
+		t.Fatalf("activities after restart = %#v, want saved run", activities)
+	}
+}
